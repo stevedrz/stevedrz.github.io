@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HTML Elements Showcase — Demo</title>
+    <meta name="description" content="A single-page demonstration of common HTML elements, banners, centering, colors, blinking, and scrolling." />
+    <style>
+      :root {
+        --bg: #0f172a;          /* slate-900 */
+        --bg-soft: #111827;     /* gray-900 */
+        --panel: #111827;
+        --panel-2: #0b1220;
+        --text: #e5e7eb;        /* gray-200 */
+        --muted: #9ca3af;       /* gray-400 */
+        --brand: #60a5fa;       /* blue-400 */
+        --brand-2: #a78bfa;     /* violet-400 */
+        --ok: #34d399;          /* emerald-400 */
+        --warn: #fbbf24;        /* amber-400 */
+        --err: #f87171;         /* red-400 */
+        --info: #38bdf8;        /* sky-400 */
+        --card: #0b1220;
+        --radius: 12px;
+        --shadow: 0 10px 30px rgba(0,0,0,.35);
+        --shadow-soft: 0 6px 20px rgba(0,0,0,.25);
+        --code-bg: #0b1020;
+      }
+
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background: radial-gradient(1200px 800px at 10% -10%, #1d2846, transparent),
+                    radial-gradient(900px 600px at 80% -10%, #26203f, transparent),
+                    linear-gradient(180deg, #0b1220, var(--bg));
+        line-height: 1.55;
+      }
+
+      a { color: var(--brand); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      /* Top navigation */
+      .topbar {
+        position: sticky; top: 0; z-index: 50;
+        background: rgba(10, 14, 30, 0.8);
+        backdrop-filter: saturate(140%) blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,.08);
+      }
+      .topbar-inner {
+        display: flex; gap: 20px; align-items: center; justify-content: space-between;
+        max-width: 1100px; margin: 0 auto; padding: 12px 16px;
+      }
+      .nav {
+        display: flex; flex-wrap: wrap; gap: 10px 14px;
+      }
+      .nav a { padding: 6px 10px; border-radius: 8px; }
+      .nav a:hover { background: rgba(255,255,255,.06); }
+
+      /* Hero banner */
+      .hero {
+        background: linear-gradient(135deg, rgba(96,165,250,.16), rgba(167,139,250,.12));
+        border-bottom: 1px solid rgba(255,255,255,.08);
+      }
+      .hero-inner { max-width: 1100px; margin: 0 auto; padding: 48px 16px 28px; }
+      .badge {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+        color: #dbeafe; background: rgba(59,130,246,.18);
+        border: 1px solid rgba(96,165,250,.35);
+        padding: 6px 10px; border-radius: 9999px;
+      }
+      .title { font-size: clamp(28px, 4.6vw, 54px); margin: 16px 0 6px; line-height: 1.1; }
+      .subtitle { color: var(--muted); max-width: 70ch; }
+
+      /* Container + cards */
+      .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 16px 80px; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+      .card {
+        background: var(--card); border: 1px solid rgba(255,255,255,.06);
+        border-radius: var(--radius); box-shadow: var(--shadow-soft);
+        padding: 16px 16px 14px;
+      }
+      .card h3 { margin-top: 6px; margin-bottom: 6px; }
+      .muted { color: var(--muted); }
+      .k { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .95em; }
+
+      /* Banners */
+      .banner { padding: 12px 14px; border-radius: 10px; margin: 10px 0; display: flex; align-items: start; gap: 10px; }
+      .banner svg { flex: none; margin-top: 2px; }
+      .banner.info { background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.45); }
+      .banner.ok { background: rgba(52,211,153,.12); border: 1px solid rgba(52,211,153,.45); }
+      .banner.warn { background: rgba(251,191,36,.12); border: 1px solid rgba(251,191,36,.45); }
+      .banner.err { background: rgba(248,113,113,.12); border: 1px solid rgba(248,113,113,.45); }
+
+      /* Centering examples */
+      .center-demo { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+      .box { background: linear-gradient(180deg, #0f1328, #0b1220); border: 1px solid rgba(255,255,255,.06); border-radius: 12px; height: 160px; position: relative; }
+      .box .inner { position: absolute; inset: 0; display: grid; place-items: center; }
+      .box.flex { display: flex; align-items: center; justify-content: center; }
+      .chip { display: inline-block; padding: 4px 8px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 9999px; font-size: 12px; }
+
+      /* Colors */
+      .swatch { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; }
+      .color {
+        border-radius: 10px; overflow: clip; border: 1px solid rgba(255,255,255,.08);
+        background: #111;
+      }
+      .color .tone { height: 48px; }
+      .color .label { padding: 8px; font-size: 12px; color: var(--muted); }
+
+      /* Typography */
+      pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      pre {
+        margin: 0; padding: 12px; background: var(--code-bg);
+        border: 1px solid rgba(255,255,255,.08); border-radius: 10px; overflow: auto;
+      }
+
+      /* Tables */
+      table { width: 100%; border-collapse: collapse; }
+      th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,.08); }
+      thead th { position: sticky; top: 0; background: rgba(255,255,255,.04); }
+
+      /* Forms */
+      input[type="text"], input[type="email"], select, textarea {
+        width: 100%; background: #0f1328; color: var(--text);
+        border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 10px;
+      }
+      label { display: block; margin-bottom: 6px; color: var(--muted); }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.12);
+        background: linear-gradient(180deg, rgba(96,165,250,.2), rgba(96,165,250,.08));
+        color: #dbeafe; cursor: pointer;
+      }
+      .btn:hover { filter: brightness(1.08); }
+
+      /* Motion and effects (blink/flash/scroll) */
+      .effects-controls { display: flex; align-items: center; gap: 12px; }
+      .effects-note { font-size: 13px; color: var(--muted); }
+
+      /* Respect users who reduce motion */
+      @media (prefers-reduced-motion: reduce) {
+        .motion-on .blinker, .motion-on .flasher, .motion-on .marquee, .motion-on .scroll-vert { animation: none !important; }
+      }
+
+      /* Blink: opacity toggle at 1Hz (safe under 3Hz) */
+      @keyframes blink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: .15; }
+      }
+      .blinker { animation: blink 1s steps(2, jump-none) infinite; }
+
+      /* Flash: background pulse at 2Hz (still under 3Hz) */
+      @keyframes flash {
+        0%, 49% { background-color: rgba(248,113,113,.18); }
+        50%, 100% { background-color: rgba(251,191,36,.22); }
+      }
+      .flasher { animation: flash .5s steps(2, jump-none) infinite; }
+
+      /* Horizontal marquee */
+      @keyframes marquee {
+        from { transform: translateX(100%); }
+        to   { transform: translateX(-100%); }
+      }
+      .marquee-outer {
+        overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 10px;
+        background: #0f1328; position: relative; height: 44px;
+      }
+      .marquee { white-space: nowrap; display: inline-block; padding: 10px; }
+      .motion-on .marquee { animation: marquee 12s linear infinite; }
+
+      /* Vertical auto-scroll area */
+      .scroll-outer { height: 160px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: #0f1328; }
+      .scroll-vert { display: grid; gap: 8px; padding: 10px; }
+      @keyframes scrollUp {
+        from { transform: translateY(0); }
+        to   { transform: translateY(calc(-100% + 160px)); }
+      }
+      .motion-on .scroll-vert { animation: scrollUp 18s linear infinite; }
+
+      /* Footer */
+      footer { max-width: 1100px; margin: 0 auto; padding: 28px 16px 60px; color: var(--muted); }
+      .to-top { position: fixed; right: 16px; bottom: 16px; }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="logo" style="display:flex;align-items:center;gap:10px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" fill="url(#g)"/>
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#60a5fa"/>
+                <stop offset="1" stop-color="#a78bfa"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <strong>HTML Showcase</strong>
+        </div>
+        <nav class="nav">
+          <a href="#banners">Banners</a>
+          <a href="#centering">Centering</a>
+          <a href="#colors">Colors</a>
+          <a href="#typography">Typography</a>
+          <a href="#tables">Tables</a>
+          <a href="#forms">Forms</a>
+          <a href="#media">Media</a>
+          <a href="#effects">Blink/Scroll</a>
+        </nav>
+      </div>
+    </div>
+
+    <header class="hero">
+      <div class="hero-inner">
+        <span class="badge">Demo • HTML Elements</span>
+        <h1 class="title">A compact tour of HTML & UI patterns</h1>
+        <p class="subtitle">This page showcases common elements (banners, centering, colors) and controlled motion effects (blink, flash, scrolling). Motion is off by default; enable it below if you’re comfortable.</p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section id="banners">
+        <h2>Banners</h2>
+        <div class="banner info">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#38bdf8"/><path d="M12 7v2m0 3v5" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div>
+            <strong>Info:</strong> Lightweight info banner using color and icon.
+          </div>
+        </div>
+        <div class="banner ok">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#34d399"/><path d="M8 12l2.5 2.5L16 9" stroke="#34d399" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <div>
+            <strong>Success:</strong> Operation completed successfully.
+          </div>
+        </div>
+        <div class="banner warn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l9 16H3L12 4z" stroke="#fbbf24"/><path d="M12 10v4m0 3v0" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div>
+            <strong>Warning:</strong> Double check your inputs before proceeding.
+          </div>
+        </div>
+        <div class="banner err">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#f87171"/><path d="M9 9l6 6M15 9l-6 6" stroke="#f87171" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <div>
+            <strong>Error:</strong> Something went wrong. Try again later.
+          </div>
+        </div>
+      </section>
+
+      <section id="centering">
+        <h2>Centering</h2>
+        <div class="center-demo">
+          <div class="box">
+            <div class="inner">
+              <div>
+                <div class="chip">Grid place-items</div>
+                <h3 style="margin:8px 0 0; text-align:center">Perfectly centered</h3>
+              </div>
+            </div>
+          </div>
+          <div class="box flex">
+            <div>
+              <div class="chip" style="margin:0 auto; display:table">Flexbox center</div>
+              <h3 style="margin:8px 0 0; text-align:center">Also perfectly centered</h3>
+            </div>
+          </div>
+        </div>
+        <p class="muted" style="margin-top:10px">Text centering: wrap content in a parent with <span class="k">text-align: center</span>.</p>
+      </section>
+
+      <section id="colors">
+        <h2>Colors</h2>
+        <div class="swatch">
+          <div class="color"><div class="tone" style="background:#60a5fa"></div><div class="label">Blue 400 — #60a5fa</div></div>
+          <div class="color"><div class="tone" style="background:#a78bfa"></div><div class="label">Violet 400 — #a78bfa</div></div>
+          <div class="color"><div class="tone" style="background:#34d399"></div><div class="label">Emerald 400 — #34d399</div></div>
+          <div class="color"><div class="tone" style="background:#fbbf24"></div><div class="label">Amber 400 — #fbbf24</div></div>
+          <div class="color"><div class="tone" style="background:#f87171"></div><div class="label">Red 400 — #f87171</div></div>
+        </div>
+        <p class="muted" style="margin-top:10px">These colors are commonly used for state (info/success/warn/error).</p>
+      </section>
+
+      <section id="typography">
+        <h2>Typography & Lists</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Headings</h3>
+            <h1>H1 Heading</h1>
+            <h2>H2 Heading</h2>
+            <h3>H3 Heading</h3>
+            <h4>H4 Heading</h4>
+            <h5>H5 Heading</h5>
+            <h6>H6 Heading</h6>
+          </div>
+          <div class="card">
+            <h3>Paragraph & Inline</h3>
+            <p>This is a standard paragraph with an <strong>emphasis</strong>, some <em>italic</em> text, and <code>inline code</code>. Links like <a href="#">this one</a> can be styled easily.</p>
+            <blockquote class="muted" style="border-left:3px solid rgba(255,255,255,.18); padding-left:10px">Blockquote example for quoted text or callouts.</blockquote>
+          </div>
+          <div class="card">
+            <h3>Lists</h3>
+            <ul>
+              <li>Unordered item</li>
+              <li>Another item</li>
+              <li>Nested structures are possible</li>
+            </ul>
+            <ol>
+              <li>Ordered item one</li>
+              <li>Ordered item two</li>
+              <li>Ordered item three</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>Code Block</h3>
+            <pre><code>// Example function
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+console.log(greet('World'));</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="tables">
+        <h2>Table</h2>
+        <div class="card">
+          <table>
+            <thead>
+              <tr><th>Name</th><th>Role</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Jane Doe</td><td>Designer</td><td><span class="chip" style="background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.35);color:#c9fddf">Active</span></td></tr>
+              <tr><td>John Smith</td><td>Engineer</td><td><span class="chip" style="background:rgba(56,189,248,.14);border-color:rgba(56,189,248,.35);color:#d8f5ff">Review</span></td></tr>
+              <tr><td>Alex Lee</td><td>PM</td><td><span class="chip" style="background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.35);color:#fff3cf">Pending</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="forms">
+        <h2>Forms</h2>
+        <div class="grid">
+          <div class="card">
+            <label for="name">Name</label>
+            <input id="name" type="text" placeholder="Ada Lovelace" />
+            <div style="height:10px"></div>
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="ada@example.com" />
+            <div style="height:10px"></div>
+            <label for="role">Role</label>
+            <select id="role">
+              <option>Designer</option>
+              <option>Engineer</option>
+              <option>Product</option>
+            </select>
+            <div style="height:10px"></div>
+            <label for="msg">Message</label>
+            <textarea id="msg" rows="4" placeholder="Say hello..."></textarea>
+            <div style="height:12px"></div>
+            <button class="btn" type="button">Submit</button>
+          </div>
+          <div class="card">
+            <h3>States</h3>
+            <p class="muted">Inputs can be disabled or readonly:</p>
+            <input type="text" value="Readonly" readonly />
+            <div style="height:10px"></div>
+            <input type="text" value="Disabled" disabled />
+          </div>
+        </div>
+      </section>
+
+      <section id="media">
+        <h2>Media</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Inline SVG</h3>
+            <svg viewBox="0 0 200 80" width="100%" height="80" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#60a5fa" />
+                  <stop offset="100%" stop-color="#a78bfa" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="200" height="80" rx="10" fill="#0f1328" stroke="rgba(255,255,255,.18)" />
+              <circle cx="40" cy="40" r="18" fill="url(#grad)" />
+              <rect x="70" y="25" width="110" height="30" rx="6" fill="url(#grad)" />
+              <text x="80" y="45" fill="#0b1220" font-size="14" font-family="Inter, Arial, sans-serif">SVG Element</text>
+            </svg>
+          </div>
+          <div class="card">
+            <h3>Figure + Caption</h3>
+            <figure style="margin:0">
+              <div class="box" style="height:120px; display:grid; place-items:center">Placeholder media</div>
+              <figcaption class="muted">A figure with a caption.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="effects">
+        <h2>Blinking, Flashing, Scrolling</h2>
+        <div class="banner warn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l9 16H3L12 4z" stroke="#fbbf24"/><path d="M12 10v4m0 3v0" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div>
+            <strong>Accessibility note:</strong> Motion can be distracting or harmful for some people. Effects are OFF by default and respect system “reduce motion”. Use the toggle below to enable.
+          </div>
+        </div>
+        <div class="effects-controls" style="margin:10px 0 14px">
+          <label style="display:inline-flex; align-items:center; gap:8px">
+            <input id="toggleMotion" type="checkbox" /> Enable motion effects
+          </label>
+          <div class="effects-note">Blink: 1Hz, Flash: 2Hz, Scroll: linear CSS animations.</div>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Blink</h3>
+            <div class="banner info blinker" style="margin:0">This banner’s opacity blinks at 1Hz.</div>
+            <p class="muted" style="margin-top:8px">Uses <span class="k">@keyframes blink</span> with steps for hard toggling.</p>
+          </div>
+          <div class="card">
+            <h3>Flash</h3>
+            <div class="banner warn flasher" style="margin:0">This banner flashes between warm tones.</div>
+            <p class="muted" style="margin-top:8px">Background color alternates at 2Hz.</p>
+          </div>
+          <div class="card">
+            <h3>Horizontal Scrolling</h3>
+            <div class="marquee-outer">
+              <div class="marquee">• Welcome to the HTML Showcase • Centering • Colors • Banners • Typography • Forms • Media • Effects •</div>
+            </div>
+            <p class="muted" style="margin-top:8px">CSS-based marquee alternative. The deprecated <span class="k">&lt;marquee&gt;</span> tag is omitted.</p>
+          </div>
+          <div class="card">
+            <h3>Vertical Scrolling</h3>
+            <div class="scroll-outer">
+              <div class="scroll-vert">
+                <div>Item 1 — News update</div>
+                <div>Item 2 — Release notes</div>
+                <div>Item 3 — Tips and tricks</div>
+                <div>Item 4 — Upcoming events</div>
+                <div>Item 5 — Community spotlight</div>
+                <div>Item 6 — Product highlight</div>
+                <div>Item 7 — FAQ</div>
+                <div>Item 8 — Support</div>
+                <div>Item 9 — Careers</div>
+                <div>Item 10 — Contact</div>
+              </div>
+            </div>
+            <p class="muted" style="margin-top:8px">Content scrolls upward inside a masked area.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>Built as a single file. Copy, tweak, and reuse.</div>
+    </footer>
+
+    <button class="btn to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
+
+    <script>
+      // Motion effects are opt-in; respect prefers-reduced-motion
+      (function(){
+        const body = document.body;
+        const checkbox = document.getElementById('toggleMotion');
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // Default: off. If user explicitly enables, store choice.
+        const saved = localStorage.getItem('demo_motion');
+        const enabled = saved === 'on' && !prefersReduced;
+        if (enabled) { body.classList.add('motion-on'); checkbox.checked = true; }
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) {
+            body.classList.add('motion-on');
+            localStorage.setItem('demo_motion', 'on');
+          } else {
+            body.classList.remove('motion-on');
+            localStorage.setItem('demo_motion', 'off');
+          }
+        });
+      })();
+    </script>
+  </body>
+  </html>
+
